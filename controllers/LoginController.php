@@ -11,6 +11,12 @@ class LoginController
     public static function login(Router $router)
     {
 
+        // $password = "123456";
+
+        // $passwordHash=password_hash($password, PASSWORD_BCRYPT);
+
+        // debuguear($passwordHash);
+
         $errores = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

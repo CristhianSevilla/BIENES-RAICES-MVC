@@ -10,19 +10,20 @@ class VendedorController
 
     public static function crear(Router $router)
     {
-        $vendedor = new Vendedor();
         $errores = Vendedor::getErrores();
+        $vendedor = new Vendedor();
+
 
         //Ejecutar el codigo sql despues de que el usuario envia el formulario
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
+            $vendedor = new Vendedor($_POST);
 
             //validad errores
             $errores = $vendedor->validarErrores();
 
             if (empty($errores)) {
-                $vendedor->guardar();
+               $resultado =  $vendedor->guardar();
             }
         }
 
