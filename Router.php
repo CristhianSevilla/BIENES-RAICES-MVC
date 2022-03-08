@@ -23,22 +23,25 @@ class Router
         session_start();
 
         $auth = $_SESSION['login'] ?? null;
-        
+
         //Arreglo de rutas protegidas
-        $rutas_protegidas = ['/admin', '/propiedades/crear', '/vendedores/crear', '/propiedades/actualizar', '/admin/', '/propiedades/eliminar', '/vendedores/actualizar','/vendedores/eliminar'];
+        $rutas_protegidas = ['/admin', '/propiedades/crear', '/vendedores/crear', '/propiedades/actualizar', '/admin/', '/propiedades/eliminar', '/vendedores/actualizar', '/vendedores/eliminar'];
 
         //leer url actual
 
-        $urlActual = $_SERVER['PATH_INFO'] ?? '/';
+        $urlActual = ($_SERVER['REQUEST_URI'] === '') ? '/' :  $_SERVER['REQUEST_URI'];
 
         //obtener metodo que se usa (GET o POST)
         $metodo = $_SERVER['REQUEST_METHOD'];
 
+        //dividimos la URL actual cada vez que exista un '?' eso indica que se están pasando variables por la url
+        $splitURL = explode('?', $urlActual);
+
         if ($metodo === 'GET') {
             //obtenemos la funcion de la url 
-            $fn =  $this->rutasGET[$urlActual] ?? null;
-        }else{
-            $fn =  $this->rutasPOST[$urlActual] ?? null;
+            $fn =  $this->rutasGET[$splitURL[0]] ?? null;//$splitURL[0] contiene la URL sin variables 
+        } else {
+            $fn =  $this->rutasPOST[$splitURL[0]] ?? null;
         }
 
         //proteger las rutas 
