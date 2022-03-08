@@ -40,7 +40,7 @@ class ActiveRecord{
         $resultado = self::$db->query($query);
 
         if ($resultado) {
-            header('Location: /admin/?mensaje=1');
+            header('Location: /admin?mensaje=1');
         }
     }
 

@@ -28,7 +28,9 @@ class Router
         $rutas_protegidas = ['/admin', '/propiedades/crear', '/vendedores/crear', '/propiedades/actualizar', '/admin/', '/propiedades/eliminar', '/vendedores/actualizar','/vendedores/eliminar'];
 
         //leer url actual
-        $urlActual = $_SERVER['REQUEST_URI'] === '' ? '/' : $_SERVER['REQUEST_URI'];
+
+        $urlActual = $_SERVER['PATH_INFO'] ?? '/';
+
         //obtener metodo que se usa (GET o POST)
         $metodo = $_SERVER['REQUEST_METHOD'];
 
