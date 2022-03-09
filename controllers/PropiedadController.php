@@ -6,9 +6,6 @@ use MVC\Router;
 use Model\Propiedad;
 use Model\Vendedor;
 
-//Importamos libreria de image
-use Intervention\Image\ImageManagerStatic as Image;
-
 class PropiedadController
 {
     public static function index(Router $router)
@@ -33,8 +30,10 @@ class PropiedadController
 
         //validamos errores
         $errores = Propiedad::getErrores();
+
         //Ejecutar el codigo sql despues de que el usuario envia el formulario
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             //instanciamos la clase propiedad
             $propiedad = new Propiedad($_POST);
 
@@ -43,11 +42,15 @@ class PropiedadController
                 //generar un nombre unico para la imagen, md5 genera una cadena siempre igual y uniqid hace la cadena unica 
                 $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
 
-                //Mandamos el nombre de la imagen que se guardara en la BD al objeto propiedad
-                $propiedad->setImagen($nombreImagen);
+                //Asignar files hacia una variable
+                $image = $_FILES['imagen'];
 
-                //corta la imagen y la redimenciona
-                $image = Image::make($_FILES['imagen']['tmp_name'])->fit(1000, 800);
+                //Validar tamaño de las imagenes(1mg max)
+                $medida = 1000 * 1000;
+                if ($image['size'] < $medida) {
+                    //Mandamos el nombre de la imagen que se guardara en la BD al objeto propiedad
+                    $propiedad->setImagen($nombreImagen);
+                }
             }
 
             //validad errores
@@ -62,7 +65,7 @@ class PropiedadController
                 }
 
                 //Subir la imagen al servidor
-                $image->save(CARPETA_IMAGENES . $nombreImagen);
+                move_uploaded_file($image['tmp_name'], CARPETA_IMAGENES . $nombreImagen);
 
                 //guardar en la DB
                 $propiedad->guardar();
@@ -93,18 +96,23 @@ class PropiedadController
                 //generar un nombre unico para la imagen, md5 genera una cadena siempre igual y uniqid hace la cadena unica 
                 $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
 
-                //Mandamos el nombre de la imagen que se guardara en la BD al objeto propiedad
-                $propiedad->setImagen($nombreImagen);
+                //Asignar files hacia una variable
+                $image = $_FILES['imagen'];
 
-                //corta la imagen y la redimenciona
-                $image = Image::make($_FILES['imagen']['tmp_name'])->fit(1000, 800);
+                //Validar tamaño de las imagenes(1mg max)
+                $medida = 1000 * 1000;
+                if ($image['size'] < $medida) {
+                    //Mandamos el nombre de la imagen que se guardara en la BD al objeto propiedad
+                    $propiedad->setImagen($nombreImagen);
+                }
             }
 
             //revisar que el arreglo de errores este vacio
             if (empty($errores)) {
 
                 if ($_FILES['imagen']['tmp_name']) {
-                    $image->save(CARPETA_IMAGENES . $nombreImagen);
+                    //Subir la imagen al servidor
+                    move_uploaded_file($image['tmp_name'], CARPETA_IMAGENES . $nombreImagen);
                 }
                 //actualizar propiedad
                 $propiedad->guardar();

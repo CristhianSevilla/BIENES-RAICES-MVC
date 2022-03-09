@@ -36,43 +36,43 @@ class Propiedad extends ActiveRecord
         $this->vendedorId = $args['vendedorId'] ?? '';
     }
 
-      //Validacion de formulario (errores)
-      public function validarErrores()
-      {
-  
-          if (!$this->titulo) {
-              self::$errores[] = "Debes añadir un titulo";
-          }
-  
-          if (!$this->precio) {
-              self::$errores[] = "El precio es obligatorio";
-          }
-  
-          if (!$this->imagen) {
-              self::$errores[] = "La imagen es obligatoria";
-          }
-  
-  
-          if (strlen($this->descripcion) < 50) {
-              self::$errores[] = "La descripción debe tener al menos 50 caracteres";
-          }
-  
-          if (!$this->habitaciones) {
-              self::$errores[] = "El número de habitaciones es obligatorio";
-          }
-  
-          if (!$this->wc) {
-              self::$errores[] = "El número de baños es obligatorio";
-          }
-  
-          if (!$this->estacionamiento) {
-              self::$errores[] = "El número de lugares de estacionamiento es obligatorio";
-          }
-  
-          if (!$this->vendedorId) {
-              self::$errores[] = "Debes seleccionar un vendedor";
-          }
-  
-          return self::$errores;
-      }
+    //Validacion de formulario (errores)
+    public function validarErrores()
+    {
+
+        if (!$this->titulo) {
+            self::$errores[] = "Debes añadir un titulo";
+        }
+
+        if (!$this->precio) {
+            self::$errores[] = "El precio es obligatorio";
+        }
+
+        if (!$this->imagen) {
+            self::$errores[] = "La imagen es obligatoria, debe pesar menos de un mega";
+        }
+
+
+        if (strlen($this->descripcion) < 50) {
+            self::$errores[] = "La descripción debe tener al menos 50 caracteres";
+        }
+
+        if (!$this->habitaciones) {
+            self::$errores[] = "El número de habitaciones es obligatorio";
+        }
+
+        if (!$this->wc) {
+            self::$errores[] = "El número de baños es obligatorio";
+        }
+
+        if (!$this->estacionamiento) {
+            self::$errores[] = "El número de lugares de estacionamiento es obligatorio";
+        }
+
+        if (!$this->vendedorId) {
+            self::$errores[] = "Debes seleccionar un vendedor";
+        }
+
+        return self::$errores;
+    }
 }

@@ -7,7 +7,6 @@
         "email": "crissev17@gmail.com"
     }],
     "require": {
-        "intervention/image": "^2.7",
         "phpmailer/phpmailer": "^6.5",
         "vlucas/phpdotenv": "^5.4"
     },
